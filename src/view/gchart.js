@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 import "react-dates/initialize";
-import { DateRangePicker } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
+import moment from 'moment';
 
 import BarChart from '../components/bar';
 import LineChart from '../components/line';
 import PieChart from "../components/pie";
+import PresetDateRangePicker from "../components/PresetDateRangePicker";
+// import DateRangePicker from "react-dates";
 
 
 const Gchart = () => {
@@ -17,7 +19,31 @@ const Gchart = () => {
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(startDate);
     setEndDate(endDate);
+    setFocusedInput(null);
   };
+
+  const today = moment();
+  const tomorrow = moment().add(1, 'day');
+  const presets = [{
+    text: 'Today',
+    start: today,
+    end: today,
+  },
+  {
+    text: 'Tomorrow',
+    start: tomorrow,
+    end: tomorrow,
+  },
+  {
+    text: 'Next Week',
+    start: today,
+    end: moment().add(1, 'week'),
+  },
+  {
+    text: 'Next Month',
+    start: today,
+    end: moment().add(1, 'month'),
+  }];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,25 +79,29 @@ const Gchart = () => {
       ]);
     };
     fetchData();
-  }, [endDate])
+  }, [endDate]);
 
   return (
     <div className={"container-sm"}>
-      <DateRangePicker
-        startDate={startDate}
-        startDateId="tata-start-date"
-        endDate={endDate}
-        endDateId="tata-end-date"
-        onDatesChange={handleDatesChange}
-        focusedInput={focusedInput}
-        onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-      />
+      <div className={"d-flex justify-content-center pt-2"}>
+        <PresetDateRangePicker
+          startDate={startDate}
+          startDateId="tata-start-date"
+          endDate={endDate}
+          endDateId="tata-end-date"
+          onDatesChange={handleDatesChange}
+          focusedInput={focusedInput}
+          onFocusChange={focusedInput => {setFocusedInput(focusedInput);}}
+          presets={presets}
+          autoFocus
+        />
+      </div>
       <div className={"row"}>
-        <LineChart />
+        <LineChart chartData={data}/>
       </div>
       <div className={"row"}>
         <div className={"col-5"}>
-            <BarChart />
+            <BarChart chartData={data}/>
         </div>
         <div className={"col-7"}>
             <PieChart chartData={data}/>

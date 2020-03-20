@@ -11,17 +11,17 @@ const BarChart = () => {
   useDidMount(async () => {
     let chart = am4core.create("chartdiv_bar", am4charts.XYChart);
     chart.data = [{
-      "country": "incorrect \nvalues\n provided",
+      "country": "incorrect values provided",
       "research": 5,
       // "marketing": 250,
       // "sales": 199
     }, {
-      "country": "broken\nserver",
+      "country": "broken server",
       "research": 1,
       // "marketing": 222,
       // "sales": 251
     }, {
-      "country": "bracket\nremoved",
+      "country": "bracket removed",
       "research": 2,
       // "marketing": 170,
       // "sales": 199
@@ -31,34 +31,17 @@ const BarChart = () => {
       // "marketing": 122,
       // "sales": 90
     }, {
-      "country": "sensor\ntesting",
+      "country": "sensor testing",
       "research": 1,
       // "marketing": 99,
       // "sales": 252
     }, {
-      "country": "sensor\nwas moved",
+      "country": "sensor was moved",
       "research": 3,
       // "marketing": 85,
       // "sales": 84
     },
-    //   {
-    //   "country": "UK",
-    //   "research": 99,
-    //   "marketing": 93,
-    //   "sales": 142
-    // }, {
-    //   "country": "Belgium",
-    //   "research": 60,
-    //   "marketing": 50,
-    //   "sales": 55
-    // }, {
-    //   "country": "The Netherlands",
-    //   "research": 50,
-    //   "marketing": 42,
-    //   "sales": 25}
     ];
-
-//console.log('chart', chart);
 
 // Create axes
     var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -66,7 +49,9 @@ const BarChart = () => {
     // categoryAxis.title.text = "Local country offices";
     categoryAxis.renderer.grid.template.location = 0;
     categoryAxis.renderer.minGridDistance = 20;
-
+    let label = categoryAxis.renderer.labels.template;
+    label.wrap = true;
+    label.maxWidth = 80;
 
     var  valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.title.text = "Expenditure (M)";

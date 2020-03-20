@@ -8,7 +8,6 @@ function DatePicker() {
   const [endDate, setEndDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
   const handleDatesChange = ({ startDate, endDate }) => {
-    alert('handle-dates-change');
     setStartDate(startDate);
     setEndDate(endDate);
   };

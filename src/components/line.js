@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -7,8 +7,9 @@ import {useDidMount} from "../hook/useDidMount";
 
 am4core.useTheme(am4themes_animated);
 
-const LineChart = () => {
-  useDidMount(async () => {
+const LineChart = (props: any) => {
+  const [chartObj, setchartObj] = useState(null);
+  const initChart = () => {
     var chart = am4core.create("chartdiv_line", am4charts.XYChart);
     chart.paddingRight = 20;
 
@@ -113,12 +114,24 @@ const LineChart = () => {
       "date": new Date(2020, 6),
       "value": 75
     }];
-
-
-
     chart.cursor = new am4charts.XYCursor();
+    setchartObj(chart);
+  };
 
+  const changeData = () => {
+    if (chartObj != null)
+        chartObj.data = props.chartData;
+  };
+
+  useDidMount(async () => {
+    initChart();
   });
+
+
+  useEffect(() => {
+    // changeData();
+  });
+
 
   return (
         <div id="chartdiv_line" style={{width: "100%", height: "400px"}}>
