@@ -11,41 +11,41 @@ const BarChart = () => {
   useDidMount(async () => {
     let chart = am4core.create("chartdiv_bar", am4charts.XYChart);
     chart.data = [{
-      "country": "incorrect values provided",
-      "research": 5,
-      // "marketing": 250,
-      // "sales": 199
+      "reason": "incorrect values provided",
+      "time1": 5,
+      "time2": 3,
+      "count" : 30,
     }, {
-      "country": "broken server",
-      "research": 1,
-      // "marketing": 222,
-      // "sales": 251
+      "reason": "broken server",
+      "time1": 1,
+      "time2": 22,
+      "count" : 24,
     }, {
-      "country": "bracket removed",
-      "research": 2,
-      // "marketing": 170,
-      // "sales": 199
+      "reason": "bracket removed",
+      "time1": 2,
+      "time2": 9,
+      "count" : 20,
     }, {
-      "country": "unknown",
-      "research": 1,
-      // "marketing": 122,
-      // "sales": 90
+      "reason": "unknown",
+      "time1": 1,
+      "time2": 8,
+      "count" : 19,
     }, {
-      "country": "sensor testing",
-      "research": 1,
-      // "marketing": 99,
-      // "sales": 252
+      "reason": "sensor testing",
+      "time1": 1,
+      "time2": 5,
+      "count" : 73,
     }, {
       "country": "sensor was moved",
-      "research": 3,
-      // "marketing": 85,
-      // "sales": 84
+      "time1": 3,
+      "time2": 5,
+      "count" : 59,
     },
     ];
 
 // Create axes
     var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "country";
+    categoryAxis.dataFields.category = "reason";
     // categoryAxis.title.text = "Local country offices";
     categoryAxis.renderer.grid.template.location = 0;
     categoryAxis.renderer.minGridDistance = 20;
@@ -53,31 +53,58 @@ const BarChart = () => {
     label.wrap = true;
     label.maxWidth = 80;
 
+    //First value axis
     var  valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.title.text = "Expenditure (M)";
+    valueAxis.title.text = "Time";
+    valueAxis.min = 0;
+    valueAxis.max = 100;
+    valueAxis.calculateTotals = true;
+    valueAxis.strictMinMax = true;
+
+    // Second value axis
+    let valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis2.title.text = "cause";
+    valueAxis2.renderer.opposite = true;
+
+    chart.colors.list = [
+      am4core.color("#845EC2"),
+      am4core.color("#FF6F91"),
+      am4core.color("#F9F871"),
+    ];
+
+    chart.maskBullets = false
 
 // Create series
     var series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.valueY = "research";
-    series.dataFields.categoryX = "country";
-    series.name = "Research";
+    series.dataFields.valueY = "time1";
+    series.dataFields.categoryX = "reason";
+    series.name = "time1";
     series.tooltipText = "{name}: [bold]{valueY}[/]";
     series.stacked = true;
+    series.dataFields.valueYShow = "totalPercent";
+
+    let valueLabel = series.bullets.push(new am4charts.LabelBullet());
+    valueLabel.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
+    valueLabel.label.verticalCenter = "bottom";
+    // valueLabel.label.maxWidth = 120;
+    valueLabel.label.truncate = false;
+    // valueLabel.label.hideOversized = false;
 
     var series2 = chart.series.push(new am4charts.ColumnSeries());
-    series2.dataFields.valueY = "marketing";
-    series2.dataFields.categoryX = "country";
-    series2.name = "Marketing";
+    series2.dataFields.valueY = "time2";
+    series2.dataFields.categoryX = "reason";
+    series2.name = "time2";
     series2.tooltipText = "{name}: [bold]{valueY}[/]";
     series2.stacked = true;
+    series2.dataFields.valueYShow = "totalPercent";
 
     var series3 = chart.series.push(new am4charts.ColumnSeries());
-    series3.dataFields.valueY = "sales";
-    series3.dataFields.categoryX = "country";
-    series3.name = "Sales";
+    series3.dataFields.valueY = "count";
+    series3.dataFields.categoryX = "reason";
+    series3.name = "count";
     series3.tooltipText = "{name}: [bold]{valueY}[/]";
-    series3.stacked = true;
-
+    // series3.dataFields.valueYShow = "totalPercent";
+    series3.yAxis = valueAxis2;
 // Add cursor
     chart.cursor = new am4charts.XYCursor();
   });

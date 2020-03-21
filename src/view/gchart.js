@@ -100,10 +100,10 @@ const Gchart = () => {
         <LineChart chartData={data}/>
       </div>
       <div className={"row"}>
-        <div className={"col-5"}>
+        <div className={"col-6"}>
             <BarChart chartData={data}/>
         </div>
-        <div className={"col-7"}>
+        <div className={"col-6"}>
             <PieChart chartData={data}/>
         </div>
       </div>

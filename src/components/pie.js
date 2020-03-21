@@ -18,8 +18,8 @@ const PieChart = (props: any) => {
 		pieSeries.dataFields.category = "country";
 		pieSeries.dataFields.vehicle = "vehicle";
 
-    	pieSeries.labels.template.wrap = true;
-    	pieSeries.labels.template.maxWidth = 120;
+		pieSeries.labels.template.wrap = true;
+		pieSeries.labels.template.maxWidth = 80;
 
 		pieSeries.labels.template.paddingLeft = 0;
 		pieSeries.labels.template.paddingRight = 0;
