@@ -26,12 +26,12 @@ const Gchart = () => {
     setFocusedInput(null)
   }
 
-  const today = moment();
+  const today = moment()
   const presets = [{
     text: 'Today',
     start: today,
     end: today
-    },
+  },
     {
       text: 'This Week',
       start: today,
@@ -51,13 +51,13 @@ const Gchart = () => {
       text: 'All',
       start: today,
       end: today.add(1, 'year')
-    },
+    }
   ]
 
   useDidMount(async () => {
     setStartDate(moment('2019-07-01'))
     setEndDate(moment('2019-07-03'))
-  });
+  })
   useEffect(() => {
     const fetchData = async () => {
       const result = axios.get('/api/data/', {
@@ -113,14 +113,17 @@ const Gchart = () => {
         </div>
       </div>
       <div className={'row'}>
-        <LineTruckChart chartData={data} startDate={startDate} endDate={endDate}/>
+        <LineTruckChart chartData={data} startDate={startDate}
+                        endDate={endDate}/>
       </div>
       <div className={'row'}>
         <div className={'col-6'}>
-          <BarTruckChart chartData={data} startDate={startDate} endDate={endDate}/>
+          <BarTruckChart chartData={data} startDate={startDate}
+                         endDate={endDate}/>
         </div>
         <div className={'col-6'}>
-          <PieTruckChart chartData={data} startDate={startDate} endDate={endDate}/>
+          <PieTruckChart chartData={data} startDate={startDate}
+                         endDate={endDate}/>
         </div>
       </div>
     </div>
