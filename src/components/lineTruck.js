@@ -7,7 +7,7 @@ import {useDidMount} from "../hook/useDidMount";
 
 am4core.useTheme(am4themes_animated);
 
-const LineChart = (props: any) => {
+const LineTruckChart = (props: any) => {
   const initChart = () => {
     let chart = am4core.create("chartdiv_line", am4charts.XYChart);
     chart.paddingRight = 20;
@@ -24,19 +24,21 @@ const LineChart = (props: any) => {
 
 // Create series
 //     {reason: {date_data: [date: "", value: x], truck: [], count:x}}
-    if (props.chartData.hasOwnProperty('reasonData') && Object.keys(props.chartData.reasonData).length > 0)
-    {
-      let reasonData = props.chartData.reasonData
-      console.log(Object.keys(reasonData))
-      Object.keys(reasonData).forEach(reasonKey => {
+    if (props.chartData == null || Object.keys(props.chartData).length === 0){
+
+    }
+    else {
+      let reasonKey = ""
+      console.log(Object.keys(props.chartData))
+      Object.keys(props.chartData).forEach(reasonKey => {
         console.log(reasonKey)
-        console.log(reasonData[reasonKey])
+        console.log(props.chartData[reasonKey])
         let new_series = chart.series.push(new am4charts.LineSeries());
-        new_series.data = reasonData[reasonKey].dateData;
-        new_series.dataFields.valueY = "value"
-        new_series.dataFields.dateX = "date"
-        new_series.strokeWidth = 3
-        new_series.tensionX = 0.8
+        new_series.data = props.chartData[reasonKey].dateData;
+        new_series.dataFields.valueY = "value";
+        new_series.dataFields.dateX = "date";
+        new_series.strokeWidth = 3;
+        new_series.tensionX = 0.8;
         new_series.name = reasonKey;
         new_series.tooltipText = "{name}: [bold]{valueY}[/]";
         // new_series.stroke = am4core.color("#e01292");
@@ -54,15 +56,16 @@ const LineChart = (props: any) => {
 
   useEffect(() => {
     // changeData();
+    console.log(props.chartData)
     initChart();
   });
 
 
   return (
-      <div id="chartdiv_line" style={{width: "100%", height: "400px"}}>
-      </div>
+        <div id="chartdiv_line" style={{width: "100%", height: "400px"}}>
+        </div>
   );
 };
 
-export default LineChart;
+export default LineTruckChart;
 

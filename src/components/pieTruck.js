@@ -7,14 +7,14 @@ import * as am4plugins_sliceGrouper from "@amcharts/amcharts4/plugins/sliceGroup
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themes_animated);
 
-const PieChart = (props: any) => {
+const PieTruckChart = (props: any) => {
 	const [chartObj, setchartObj] = useState(null);
 	const initChart = () => {
 		let chartObj = am4core.create("chartdiv_pie", am4charts.PieChart);
 		// Add and configure Series
 		let pieSeries = chartObj.series.push(new am4charts.PieSeries());
+
 		pieSeries.dataFields.value = "count";
-		pieSeries.dataFields.category = "reason";
 		pieSeries.dataFields.vehicle = "truck";
 
 		pieSeries.labels.template.wrap = true;
@@ -25,9 +25,9 @@ const PieChart = (props: any) => {
 		pieSeries.labels.template.paddingTop = 0;
 		pieSeries.labels.template.paddingBottom = 0;
 
-		pieSeries.slices.template.tooltipText = "{category}: {vehicle}"
+		pieSeries.slices.template.tooltipText = "{vehicle}:{count}"
 
-		let grouper = pieSeries.plugins.push(new am4plugins_sliceGrouper.SliceGrouper())
+		let grouper = pieSeries.plugins.push(new am4plugins_sliceGrouper.SliceGrouper());
 		grouper.threshold = 5;
 		grouper.groupName = "Other";
 		grouper.clickBehavior = "zoom";
@@ -40,22 +40,22 @@ const PieChart = (props: any) => {
 
 	const changeData = () => {
 		if (chartObj != null) {
-			// props.chartData;
-			if (props.chartData.hasOwnProperty('reasonData') &&
-				Object.keys(props.chartData.reasonData) > 0){
+
+			if (props.chartData.hasOwnProperty('trackData') &&
+				Object.keys(props.chartData.trackData).length > 0){
 				let newData = []
-				let reasonData = props.chartData.reasonData
-				Object.keys(reasonData).forEach(reasonKey => {
+				let trackData = props.chartData.trackData
+				Object.keys(trackData).forEach(truckKey => {
 					let newObj = {
-						"reason": reasonKey,
-						"count": reasonData[reasonKey].count,
-						"truck": reasonData[reasonKey].truck,
+						"truck": truckKey,
+						"count": trackData[truckKey].count,
 					}
 					newData.push(newObj)
 				})
-				if (newData.length > 0)
-					chartObj.data = newData
+				chartObj.data = newData
 			}
+
+
 		}
 	};
 
@@ -73,4 +73,4 @@ const PieChart = (props: any) => {
 	);
 };
 
-export default PieChart;
+export default PieTruckChart;
