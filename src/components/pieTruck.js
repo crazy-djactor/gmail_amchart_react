@@ -10,12 +10,12 @@ am4core.useTheme(am4themes_animated);
 const PieTruckChart = (props: any) => {
 	const [chartObj, setchartObj] = useState(null);
 	const initChart = () => {
-		let chartObj = am4core.create("chartdiv_pie", am4charts.PieChart);
+		let chartObj = am4core.create("chartdiv_truckpie", am4charts.PieChart);
 		// Add and configure Series
 		let pieSeries = chartObj.series.push(new am4charts.PieSeries());
 
-		pieSeries.dataFields.value = "count";
-		pieSeries.dataFields.vehicle = "truck";
+		pieSeries.dataFields.value = "count"
+		pieSeries.dataFields.category = "truck"
 
 		pieSeries.labels.template.wrap = true;
 		pieSeries.labels.template.maxWidth = 80;
@@ -25,7 +25,7 @@ const PieTruckChart = (props: any) => {
 		pieSeries.labels.template.paddingTop = 0;
 		pieSeries.labels.template.paddingBottom = 0;
 
-		pieSeries.slices.template.tooltipText = "{vehicle}:{count}"
+		pieSeries.slices.template.tooltipText = "{category}:{count}"
 
 		let grouper = pieSeries.plugins.push(new am4plugins_sliceGrouper.SliceGrouper());
 		grouper.threshold = 5;
@@ -41,10 +41,10 @@ const PieTruckChart = (props: any) => {
 	const changeData = () => {
 		if (chartObj != null) {
 
-			if (props.chartData.hasOwnProperty('trackData') &&
-				Object.keys(props.chartData.trackData).length > 0){
+			if (props.chartData.hasOwnProperty('truckData') &&
+				Object.keys(props.chartData.truckData).length > 0){
 				let newData = []
-				let trackData = props.chartData.trackData
+				let trackData = props.chartData.truckData
 				Object.keys(trackData).forEach(truckKey => {
 					let newObj = {
 						"truck": truckKey,
@@ -68,7 +68,7 @@ const PieTruckChart = (props: any) => {
 	});
 
 	return (
-		<div id="chartdiv_pie" style={{width: "100%", height: "400px"}}>
+		<div id="chartdiv_truckpie" style={{width: "100%", height: "400px"}}>
 		</div>
 	);
 };

@@ -34,8 +34,9 @@ export function getData(data, startDate, endDate){
       reasonData[item.reason].truck.push(item.truck);
       if (truckData[item.truck] === undefined) {
         truckData[item.truck] = {count: 1}
-        let eachTruck
-        for (eachTruck in duration){
+        let eachTruck, i
+        for (i = 0; i < duration.length; i ++){
+          eachTruck = duration[i]
           if (eachTruck.truck === item.truck) {
             truckData[item.truck].duration = eachTruck.duration
             break
@@ -51,8 +52,9 @@ export function getData(data, startDate, endDate){
       push_notexist(reasonData[item.reason].truck, item.truck)
       if (truckData[item.truck] === undefined) {
         truckData[item.truck] = {count: 1}
-        let eachTruck
-        for (eachTruck in duration) {
+        let eachTruck, i
+        for (i = 0; i < duration.length; i ++){
+          eachTruck = duration[i]
           if (eachTruck.truck === item.truck) {
             truckData[item.truck].duration = eachTruck.duration
             break
@@ -94,22 +96,20 @@ export function getData(data, startDate, endDate){
     reasonData[reasonKey].dateData = sortedData
   })
   console.log(reasonData)
-  let retData = {
+  return {
     reasonData: reasonData,
     truckData: truckData
   }
-  return retData
 }
 
-export function workdayCount(sstart, send) {
-  let start = moment(sstart)
-  let end = moment(send)
-  let first = start.endOf('week'); // end of first week
-  let last = end.startOf('week'); // start of last week
-  let days = last.diff(first,'days') * 5 / 7; // this will always multiply of 7
-  let wfirst = first.day() - start.day(); // check first week
-  if(start.day() === 0) --wfirst; // -1 if start with sunday
-  let wlast = end.day() - last.day(); // check last week
-  if(end.day() === 6) --wlast; // -1 if end with saturday
-  return wfirst + Math.floor(days) + wlast; // get the total
+export function workdayCount(startDate, endDate) {
+  let lastDay = endDate
+  let firstDay = startDate
+  let calcBusinessDays = 1 + (lastDay.diff(firstDay, 'days') * 5 -
+    (firstDay.day() - lastDay.day()) * 2) / 7
+
+  if (lastDay.day() === 6) calcBusinessDays--//SAT
+  if (firstDay.day() === 0) calcBusinessDays--//SUN
+
+  return calcBusinessDays;
 } //

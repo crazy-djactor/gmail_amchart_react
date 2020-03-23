@@ -26,8 +26,7 @@ const Gchart = () => {
     setFocusedInput(null)
   }
 
-  const today = startDate
-  const tomorrow = moment(startDate).add(1, 'day')
+  const today = moment();
   const presets = [{
     text: 'Today',
     start: today,
@@ -36,17 +35,22 @@ const Gchart = () => {
     {
       text: 'This Week',
       start: today,
-      end: moment(startDate).add(1, 'week')
+      end: today.add(1, 'week')
     },
     {
       text: 'This Month',
       start: today,
-      end: moment(startDate).add(1, 'month')
+      end: today.add(1, 'month')
     },
     {
       text: 'This Year',
       start: today,
-      end: moment(startDate).add(1, 'year')
+      end: today.add(1, 'year')
+    },
+    {
+      text: 'All',
+      start: today,
+      end: today.add(1, 'year')
     },
   ]
 
@@ -63,9 +67,10 @@ const Gchart = () => {
         }
       })
         .then(function (response) {
-          console.log(response.data['count'])
           let sData = getData(response.data, startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'))
           setData(sData)
+          setStartDate(response.data.startDate)
+          setEndDate(response.data.endDate)
         })
         .catch(function (error) {
           console.log(error)
@@ -107,17 +112,17 @@ const Gchart = () => {
           <PieChart chartData={data} startDate={startDate} endDate={endDate}/>
         </div>
       </div>
-      {/*<div className={'row'}>*/}
-      {/*  <LineTruckChart chartData={data} startDate={startDate} endDate={endDate}/>*/}
-      {/*</div>*/}
-      {/*<div className={'row'}>*/}
-      {/*  <div className={'col-6'}>*/}
-      {/*    <BarTruckChart chartData={data} startDate={startDate} endDate={endDate}/>*/}
-      {/*  </div>*/}
-      {/*  <div className={'col-6'}>*/}
-      {/*    <PieTruckChart chartData={data} startDate={startDate} endDate={endDate}/>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+      <div className={'row'}>
+        <LineTruckChart chartData={data} startDate={startDate} endDate={endDate}/>
+      </div>
+      <div className={'row'}>
+        <div className={'col-6'}>
+          <BarTruckChart chartData={data} startDate={startDate} endDate={endDate}/>
+        </div>
+        <div className={'col-6'}>
+          <PieTruckChart chartData={data} startDate={startDate} endDate={endDate}/>
+        </div>
+      </div>
     </div>
   )
 }

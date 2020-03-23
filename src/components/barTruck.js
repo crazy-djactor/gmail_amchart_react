@@ -11,7 +11,7 @@ am4core.useTheme(am4themes_animated);
 
 const BarTruckChart = (props: any) => {
   const initChart = () => {
-    let chart = am4core.create("chartdiv_bar", am4charts.XYChart);
+    let chart = am4core.create("chartdiv_truckbar", am4charts.XYChart);
 // Create axes
     let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     categoryAxis.dataFields.category = "truck";
@@ -103,7 +103,7 @@ const BarTruckChart = (props: any) => {
   });
 
   return (
-    <div id="chartdiv_bar" style={{width: "100%", height: "400px"}}>
+    <div id="chartdiv_truckbar" style={{width: "100%", height: "400px"}}>
     </div>
   );
 
