@@ -42,7 +42,7 @@ const PieChart = (props: any) => {
 		if (chartObj != null) {
 			// props.chartData;
 			if (props.chartData.hasOwnProperty('reasonData') &&
-				Object.keys(props.chartData.reasonData) > 0){
+				Object.keys(props.chartData.reasonData).length > 0){
 				let newData = []
 				let reasonData = props.chartData.reasonData
 				Object.keys(reasonData).forEach(reasonKey => {
